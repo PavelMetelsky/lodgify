@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace VacationRental.Api.Models
+
+namespace VacationRental.BusinessLogic.Models
 {
     public class BookingBindingModel
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace VacationRental.Api.Models
+
+namespace VacationRental.BusinessLogic.Models
 {
     public class CalendarDateViewModel
     {

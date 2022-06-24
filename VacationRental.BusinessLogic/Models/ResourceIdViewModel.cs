@@ -1,4 +1,5 @@
-﻿namespace VacationRental.Api.Models
+﻿
+namespace VacationRental.BusinessLogic.Models
 {
     public class ResourceIdViewModel
     {
