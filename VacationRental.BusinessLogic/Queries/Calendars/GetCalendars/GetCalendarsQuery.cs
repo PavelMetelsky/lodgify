@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using VacationRental.BusinessLogic.Models;
 
-namespace VacationRental.BusinessLogic.Queries.Calendars
+namespace VacationRental.BusinessLogic.Queries.Calendars.GetCalendars
 {
     public class GetCalendarsQuery : IRequest<CalendarViewModel>
     {

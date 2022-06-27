@@ -2,8 +2,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VacationRental.BusinessLogic.Commands.Bookings;
-using VacationRental.BusinessLogic.Models;
-using VacationRental.BusinessLogic.Queries.Books;
+using VacationRental.BusinessLogic.Models.Bookings;
+using VacationRental.BusinessLogic.Queries.Bookings.GetBooking;
 
 namespace VacationRental.Api.Controllers
 {
@@ -18,7 +18,7 @@ namespace VacationRental.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{bookingId}")]
+        [HttpGet("{bookingId:int}")]
         public async Task<BookingViewModel> Get(int bookingId)
         {
             return await _mediator.Send(new GetBookingsQuery { BookingId= bookingId });

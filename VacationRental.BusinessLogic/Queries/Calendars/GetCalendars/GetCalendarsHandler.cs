@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using VacationRental.BusinessLogic.Models;
 using VacationRental.Database;
 
-namespace VacationRental.BusinessLogic.Queries.Calendars
+namespace VacationRental.BusinessLogic.Queries.Calendars.GetCalendars
 {
     public class GetCalendarsHandler : IRequestHandler<GetCalendarsQuery, CalendarViewModel>
     {

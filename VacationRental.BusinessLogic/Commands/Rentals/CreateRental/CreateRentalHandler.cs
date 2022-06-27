@@ -8,7 +8,7 @@ using VacationRental.BusinessLogic.Models;
 using VacationRental.Database;
 using VacationRental.Entities;
 
-namespace VacationRental.BusinessLogic.Commands.Rentals
+namespace VacationRental.BusinessLogic.Commands.Rentals.CreateRental
 {
     public class CreateRentalHandler : IRequestHandler<CreateRentalCommand, ResourceIdViewModel>
     {
@@ -23,7 +23,9 @@ namespace VacationRental.BusinessLogic.Commands.Rentals
         {
             var rentalEntity = new Rental
             {
-                Units = request.Units
+                Units = request.Units,
+                PreparationTimeInDays = request.PreparationTimeInDays,
+                Active = true
             };
 
             await _vrContext.Rentals.AddAsync(rentalEntity, cancellationToken);

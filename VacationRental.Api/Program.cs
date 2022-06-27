@@ -3,10 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
-using VacationRental.BusinessLogic.Models;
 using MediatR;
 using VacationRental.Database;
 using Microsoft.EntityFrameworkCore;
+using VacationRental.BusinessLogic.Models.Rentals;
+using VacationRental.BusinessLogic.Models.Bookings;
 
 var MyAllowSpecificOrigins = "MyPolicy";
 const string swaggerTitle = "Vacation Rental";
@@ -27,10 +28,6 @@ builder.Services.AddCors(options =>
                       });
 });
 
-// Add services to the container.
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-
 {
     var services = builder.Services;
 
@@ -47,12 +44,11 @@ builder.Services.AddCors(options =>
     services.AddSingleton<IDictionary<int, RentalViewModel>>(new Dictionary<int, RentalViewModel>());
     services.AddSingleton<IDictionary<int, BookingViewModel>>(new Dictionary<int, BookingViewModel>());
     services.AddDbContext<VRContext>(options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
-    services.AddMediatR(typeof(VacationRental.BusinessLogic.Models.BookingViewModel));
+    services.AddMediatR(typeof(BookingViewModel));
 }
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -62,9 +58,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
-
-//app.UseAuthentication();
-//app.UseAuthorization();
 
 app.MapControllers();
 

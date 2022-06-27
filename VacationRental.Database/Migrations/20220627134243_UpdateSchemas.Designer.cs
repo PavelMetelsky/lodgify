@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VacationRental.Database;
 
@@ -11,9 +12,10 @@ using VacationRental.Database;
 namespace VacationRental.Database.Migrations
 {
     [DbContext(typeof(VRContext))]
-    partial class VRContextModelSnapshot : ModelSnapshot
+    [Migration("20220627134243_UpdateSchemas")]
+    partial class UpdateSchemas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

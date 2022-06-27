@@ -1,11 +1,9 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VacationRental.BusinessLogic.Models;
+using VacationRental.BusinessLogic.Models.Rentals;
 using VacationRental.Database;
 
 namespace VacationRental.BusinessLogic.Queries.Rentals
@@ -26,13 +24,12 @@ namespace VacationRental.BusinessLogic.Queries.Rentals
             if (rental == null)
                 throw new ApplicationException("Rental not found");
 
-            var rentalModel = new RentalViewModel
+            return new RentalViewModel
             { 
                Id = rental.Id,
-               Units = rental.Id
+               Units = rental.Units,
+               PreparationTimeInDays = rental.PreparationTimeInDays
             };
-
-            return rentalModel;
         }
     }
 }

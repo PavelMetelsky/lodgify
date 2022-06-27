@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace VacationRental.BusinessLogic.Models
+namespace VacationRental.BusinessLogic.Models.Bookings
 {
     public class BookingBindingModel
     {

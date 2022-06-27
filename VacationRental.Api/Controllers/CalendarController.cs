@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VacationRental.BusinessLogic.Models;
-using VacationRental.BusinessLogic.Queries.Calendars;
+using VacationRental.BusinessLogic.Queries.Calendars.GetCalendars;
 
 namespace VacationRental.Api.Controllers
 {

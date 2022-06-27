@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using VacationRental.BusinessLogic.Models;
+using VacationRental.BusinessLogic.Models.Rentals;
 
 namespace VacationRental.BusinessLogic.Queries.Rentals
 {

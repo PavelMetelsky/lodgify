@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VacationRental.BusinessLogic.Models;
+using VacationRental.BusinessLogic.Models.Bookings;
 using VacationRental.Database;
 
-namespace VacationRental.BusinessLogic.Queries.Books
+namespace VacationRental.BusinessLogic.Queries.Bookings.GetBooking
 {
     public class GetBookingsHandler : IRequestHandler<GetBookingsQuery, BookingViewModel>
     {
@@ -25,7 +25,8 @@ namespace VacationRental.BusinessLogic.Queries.Books
             if (booking == null)
                 throw new ApplicationException("Booking not found");
 
-            var bookingModel = new BookingViewModel { 
+            var bookingModel = new BookingViewModel
+            {
                 Id = booking.Id,
                 Nights = booking.Nights,
                 RentalId = booking.RentalId,

@@ -9,10 +9,6 @@ namespace VacationRental.Database
             : base(options)
         {
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(@"Server=.;Database=VacationRentalDb;Trusted_Connection=True;");
-        //}
 
         public DbSet<Booking> Bookings { get; set; }
 
