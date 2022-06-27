@@ -5,6 +5,8 @@ using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
 using VacationRental.BusinessLogic.Models;
 using MediatR;
+using VacationRental.Database;
+using Microsoft.EntityFrameworkCore;
 
 var MyAllowSpecificOrigins = "MyPolicy";
 const string swaggerTitle = "Vacation Rental";
@@ -44,7 +46,7 @@ builder.Services.AddCors(options =>
     });
     services.AddSingleton<IDictionary<int, RentalViewModel>>(new Dictionary<int, RentalViewModel>());
     services.AddSingleton<IDictionary<int, BookingViewModel>>(new Dictionary<int, BookingViewModel>());
-    //services.AddDbContext<DBContext>(options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+    services.AddDbContext<VRContext>(options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
     services.AddMediatR(typeof(VacationRental.BusinessLogic.Models.BookingViewModel));
 }
 

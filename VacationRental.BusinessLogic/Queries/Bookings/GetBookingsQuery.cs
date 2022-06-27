@@ -4,9 +4,8 @@ using VacationRental.BusinessLogic.Models;
 
 namespace VacationRental.BusinessLogic.Queries.Books
 {
-    public class GetBookQuery : IRequest<BookingViewModel>
+    public class GetBookingsQuery : IRequest<BookingViewModel>
     {
-        [FromRoute]
         public int BookingId { get; set; }
-}
+    }
 }
