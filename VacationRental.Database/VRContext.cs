@@ -13,5 +13,7 @@ namespace VacationRental.Database
         public DbSet<Booking> Bookings { get; set; }
 
         public DbSet<Rental> Rentals { get; set; }
+
+        public DbSet<Unit> Units { get; set; }
     }
 }

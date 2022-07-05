@@ -41,8 +41,6 @@ builder.Services.AddCors(options =>
             Version = swaggerVersion
         });
     });
-    services.AddSingleton<IDictionary<int, RentalViewModel>>(new Dictionary<int, RentalViewModel>());
-    services.AddSingleton<IDictionary<int, BookingViewModel>>(new Dictionary<int, BookingViewModel>());
     services.AddDbContext<VRContext>(options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
     services.AddMediatR(typeof(BookingViewModel));
 }

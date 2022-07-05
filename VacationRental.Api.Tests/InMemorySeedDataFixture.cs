@@ -19,7 +19,7 @@ namespace VacationRental.Api.Tests
 
         public void AddRental(int units, int preparationTimeInDays)
         {
-            _vrContext.Rentals.Add(new Entities.Rental {Units = units, PreparationTimeInDays = preparationTimeInDays });
+            _vrContext.Rentals.Add(new Entities.Rental {/*Units = units,*/ PreparationTimeInDays = preparationTimeInDays });
             _vrContext.SaveChanges();
         }
 

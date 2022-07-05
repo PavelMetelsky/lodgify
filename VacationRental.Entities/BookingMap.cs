@@ -11,6 +11,10 @@ namespace VacationRental.Entities
 
             builder.Property(p => p.Nights)
                    .IsRequired();
+
+            builder.HasOne(p => p.Unit)
+                   .WithMany()
+                   .HasForeignKey(p => p.UnitId);
         }
     }
 }

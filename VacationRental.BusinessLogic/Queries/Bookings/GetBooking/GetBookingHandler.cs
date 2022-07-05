@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VacationRental.BusinessLogic.Models.Bookings;
@@ -21,7 +19,10 @@ namespace VacationRental.BusinessLogic.Queries.Bookings.GetBooking
 
         public async Task<BookingViewModel> Handle(GetBookingsQuery request, CancellationToken cancellationToken)
         {
-            var booking = await _vrContext.Bookings.FirstOrDefaultAsync(b => b.Id == request.BookingId);
+            var booking = await _vrContext.Bookings
+                .Include(b => b.Unit)
+                .FirstOrDefaultAsync(b => b.Id == request.BookingId);
+
             if (booking == null)
                 throw new ApplicationException("Booking not found");
 
@@ -29,7 +30,7 @@ namespace VacationRental.BusinessLogic.Queries.Bookings.GetBooking
             {
                 Id = booking.Id,
                 Nights = booking.Nights,
-                RentalId = booking.RentalId,
+                RentalId = booking.Unit.RentalId,
                 Start = booking.Start,
             };
 

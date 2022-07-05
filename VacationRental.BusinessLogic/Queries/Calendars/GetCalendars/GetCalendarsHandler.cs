@@ -41,10 +41,11 @@ namespace VacationRental.BusinessLogic.Queries.Calendars.GetCalendars
                     Bookings = new List<CalendarBookingViewModel>()
                 };
 
-                foreach (var booking in _vrContext.Bookings)
+                foreach (var booking in _vrContext.Bookings.Include(b => b.Unit))
                 {
-                    if (booking.RentalId == request.RentalId
-                        && booking.Start <= date.Date && booking.Start.AddDays(booking.Nights) > date.Date)
+                    if (booking.Unit.RentalId == request.RentalId
+                     && booking.Start <= date.Date
+                     && booking.Start.AddDays(booking.Nights) > date.Date)
                     {
                         date.Bookings.Add(new CalendarBookingViewModel { Id = booking.Id });
                     }

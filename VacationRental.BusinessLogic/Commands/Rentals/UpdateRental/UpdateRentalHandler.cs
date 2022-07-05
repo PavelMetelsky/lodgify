@@ -29,7 +29,7 @@ namespace VacationRental.BusinessLogic.Commands.Rentals.CreateRental
             rentalEntity.Active = false;
             await _vrContext.SaveChangesAsync();
 
-            var bookingsCount = await _vrContext.Bookings.CountAsync(x => x.RentalId == request.RentalId);
+            var bookingsCount = await _vrContext.Bookings.CountAsync(x => x.Unit.RentalId == request.RentalId);
             if (bookingsCount > request.Units)
             {
                 throw new ApplicationException("You cann't specify less units than alreafy booked");
@@ -37,7 +37,7 @@ namespace VacationRental.BusinessLogic.Commands.Rentals.CreateRental
 
             if (request.PreparationTimeInDays > rentalEntity.PreparationTimeInDays)
             {
-                var bookings = await _vrContext.Bookings.Where(x => x.RentalId == request.RentalId).ToListAsync();
+                var bookings = await _vrContext.Bookings.Where(x => x.Unit.RentalId == request.RentalId).ToListAsync();
 
                 foreach (var booking in bookings)
                 {
@@ -50,7 +50,7 @@ namespace VacationRental.BusinessLogic.Commands.Rentals.CreateRental
                 }
             }
 
-            rentalEntity.Units = request.Units;
+            //rentalEntity.Units = request.Units;
             rentalEntity.PreparationTimeInDays = request.PreparationTimeInDays;
             rentalEntity.Active = true;
 

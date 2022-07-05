@@ -23,10 +23,15 @@ namespace VacationRental.BusinessLogic.Commands.Rentals.CreateRental
         {
             var rentalEntity = new Rental
             {
-                Units = request.Units,
+                Units = new List<Entities.Unit>(),
                 PreparationTimeInDays = request.PreparationTimeInDays,
                 Active = true
             };
+
+            for (var i = 0; i < request.Units; i++)
+            {
+                rentalEntity.Units.Add(new Entities.Unit { Active = true});
+            }
 
             await _vrContext.Rentals.AddAsync(rentalEntity, cancellationToken);
             await _vrContext.SaveChangesAsync();

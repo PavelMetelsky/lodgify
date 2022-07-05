@@ -16,5 +16,7 @@ namespace VacationRental.BusinessLogic.Commands.Bookings
 
         private DateTime _startIgnoreTime;
         public int Nights { get; set; }
+
+        public DateTime End => Start.AddDays(Nights);
     }
 }

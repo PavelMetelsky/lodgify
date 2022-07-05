@@ -27,7 +27,7 @@ namespace VacationRental.BusinessLogic.Queries.Rentals
             return new RentalViewModel
             { 
                Id = rental.Id,
-               Units = rental.Units,
+               //Units = rental.Units,
                PreparationTimeInDays = rental.PreparationTimeInDays
             };
         }
