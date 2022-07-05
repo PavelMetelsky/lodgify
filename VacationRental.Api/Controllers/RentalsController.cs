@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VacationRental.BusinessLogic.Commands.Rentals.CreateRental;
 using VacationRental.BusinessLogic.Models.Rentals;
-using VacationRental.BusinessLogic.Queries.Rentals;
+using VacationRental.BusinessLogic.Queries.Rentals.GetRental;
 
 namespace VacationRental.Api.Controllers
 {

@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using VacationRental.BusinessLogic.Models.Rentals;
-using VacationRental.BusinessLogic.Queries.Rentals;
+using VacationRental.BusinessLogic.Queries.Rentals.GetRental;
 using Xunit;
 
 namespace VacationRental.Api.Tests.Rentals

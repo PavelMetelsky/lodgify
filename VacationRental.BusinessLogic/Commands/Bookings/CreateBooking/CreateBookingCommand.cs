@@ -2,7 +2,7 @@
 using System;
 using VacationRental.BusinessLogic.Models;
 
-namespace VacationRental.BusinessLogic.Commands.Bookings
+namespace VacationRental.BusinessLogic.Commands.Bookings.CreateBooking
 {
     public class CreateBookingCommand : IRequest<ResourceIdViewModel>
     {

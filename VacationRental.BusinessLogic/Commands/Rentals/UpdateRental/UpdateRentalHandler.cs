@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VacationRental.BusinessLogic.Models;
 using VacationRental.Database;
+using VacationRental.Entities;
 
 namespace VacationRental.BusinessLogic.Commands.Rentals.CreateRental
 {
@@ -20,46 +21,74 @@ namespace VacationRental.BusinessLogic.Commands.Rentals.CreateRental
 
         public async Task<ResourceIdViewModel> Handle(UpdateRentalCommand request, CancellationToken cancellationToken)
         {
+            var rental = await _vrContext.Rentals
+                .Include(r => r.Units)
+                    .ThenInclude(u => u.Bookings
+                        .Where(b => DateTime.UtcNow < b.End.AddDays(b.Unit.Rental.PreparationTimeInDays)))
+                .FirstOrDefaultAsync(b => b.Id == request.RentalId);
 
-            var rentalEntity = await _vrContext.Rentals.FirstOrDefaultAsync(b => b.Id == request.RentalId);
-
-            if (rentalEntity == null)
+            if (rental == null)
                 throw new ApplicationException("Rental not found");
 
-            rentalEntity.Active = false;
+            await DeactivateAndValidateRental(rental, request);
+            await UpdateRental(rental, request);
+
+            return new ResourceIdViewModel
+            {
+                Id = rental.Id
+            };
+        }
+
+        private async Task DeactivateAndValidateRental(Rental rental, UpdateRentalCommand request)
+        {
+            rental.Active = false;
             await _vrContext.SaveChangesAsync();
 
-            var bookingsCount = await _vrContext.Bookings.CountAsync(x => x.Unit.RentalId == request.RentalId);
-            if (bookingsCount > request.Units)
+            if (rental.Units.Count(u => u.Bookings.Any()) >= request.Units)
             {
                 throw new ApplicationException("You cann't specify less units than alreafy booked");
             }
 
-            if (request.PreparationTimeInDays > rentalEntity.PreparationTimeInDays)
+            if (request.PreparationTimeInDays > rental.PreparationTimeInDays)
             {
-                var bookings = await _vrContext.Bookings.Where(x => x.Unit.RentalId == request.RentalId).ToListAsync();
-
-                foreach (var booking in bookings)
+                foreach (var unit in rental.Units)
                 {
-                    var endBookingDate = booking.Start.AddDays(booking.Nights + request.PreparationTimeInDays);
+                    var bookings = unit.Bookings.OrderBy(b => b.Start).ToArray();
 
-                    if (bookings.Exists(x => x.Start <= endBookingDate))
+                    for (var i = 1; i < bookings.Length; i++)
                     {
-                        throw new ApplicationException("PreparationTime can't be updated due to overlapping between existing bookings");
+                        if (bookings[i - 1].End.AddDays(request.PreparationTimeInDays) > bookings[i].Start)
+                        {
+                            throw new ApplicationException("PreparationTime can't be updated due to overlapping between existing bookings");
+                        }
                     }
                 }
             }
+        }
 
-            //rentalEntity.Units = request.Units;
-            rentalEntity.PreparationTimeInDays = request.PreparationTimeInDays;
-            rentalEntity.Active = true;
+        private async Task UpdateRental(Rental rental, UpdateRentalCommand request)
+        {
+            var unitDelta = rental.Units.Count - request.Units;
+
+            if (unitDelta < 0)
+            {
+                for (var i = 0; i < -unitDelta; i++)
+                {
+                    rental.Units.Add(new Entities.Unit { Active = true });
+                }
+            }
+            else
+            {
+                foreach (var unit in rental.Units.Where(u => !u.Bookings.Any()).Take(unitDelta).ToList())
+                {
+                    rental.Units.Remove(unit);
+                }
+            }
+
+            rental.PreparationTimeInDays = request.PreparationTimeInDays;
+            rental.Active = true;
 
             await _vrContext.SaveChangesAsync();
-
-            return new ResourceIdViewModel
-            {
-                Id = rentalEntity.Id
-            };
         }
     }
 }

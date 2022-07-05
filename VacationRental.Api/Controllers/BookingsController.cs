@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VacationRental.BusinessLogic.Commands.Bookings;
+using VacationRental.BusinessLogic.Commands.Bookings.CreateBooking;
 using VacationRental.BusinessLogic.Models.Bookings;
 using VacationRental.BusinessLogic.Queries.Bookings.GetBooking;
 

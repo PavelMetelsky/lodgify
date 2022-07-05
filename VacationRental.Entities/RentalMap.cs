@@ -11,7 +11,6 @@ namespace VacationRental.Entities
 
             builder.Property(p => p.Units)
                    .IsRequired();
-
         }
     }
 }

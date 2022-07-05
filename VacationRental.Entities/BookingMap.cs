@@ -9,9 +9,6 @@ namespace VacationRental.Entities
         {
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.Nights)
-                   .IsRequired();
-
             builder.HasOne(p => p.Unit)
                    .WithMany()
                    .HasForeignKey(p => p.UnitId);

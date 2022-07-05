@@ -33,8 +33,8 @@ namespace VacationRental.Database.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Nights")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime2");
@@ -76,7 +76,7 @@ namespace VacationRental.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool?>("Active")
+                    b.Property<bool>("Active")
                         .HasColumnType("bit");
 
                     b.Property<int>("RentalId")

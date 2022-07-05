@@ -4,11 +4,9 @@
     {
         public int Id { get; set; }
         public DateTime Start { get; set; }
-        public int Nights { get; set; }
+        public DateTime End { get; set; }
         public bool Active { get; set; }
         public int UnitId { get; set; }
         public Unit Unit { get; set; }
-
-        public DateTime End => Start.AddDays(Nights);
     }
 }

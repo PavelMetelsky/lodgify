@@ -26,15 +26,13 @@ namespace VacationRental.BusinessLogic.Queries.Bookings.GetBooking
             if (booking == null)
                 throw new ApplicationException("Booking not found");
 
-            var bookingModel = new BookingViewModel
+            return new BookingViewModel
             {
                 Id = booking.Id,
-                Nights = booking.Nights,
+                Nights = (booking.End - booking.Start).Days,
                 RentalId = booking.Unit.RentalId,
                 Start = booking.Start,
             };
-
-            return bookingModel;
         }
     }
 }

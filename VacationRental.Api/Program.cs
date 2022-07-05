@@ -2,11 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System.Collections.Generic;
 using MediatR;
 using VacationRental.Database;
 using Microsoft.EntityFrameworkCore;
-using VacationRental.BusinessLogic.Models.Rentals;
 using VacationRental.BusinessLogic.Models.Bookings;
 
 var MyAllowSpecificOrigins = "MyPolicy";
