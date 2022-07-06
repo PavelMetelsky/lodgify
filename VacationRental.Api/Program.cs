@@ -1,17 +1,60 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using MediatR;
+using VacationRental.Database;
+using Microsoft.EntityFrameworkCore;
+using VacationRental.BusinessLogic.Models.Bookings;
 
-namespace VacationRental.Api
+var MyAllowSpecificOrigins = "MyPolicy";
+const string swaggerTitle = "Vacation Rental";
+const string swaggerVersion = "v1";
+const string swaggerUrl = "/swagger/v1/swagger.json";
+const string swaggerName = "Vacation Rental v1";
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("http://localhost:4200")
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                      });
+});
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+{
+    var services = builder.Services;
+
+    services.AddControllers();
+    services.AddEndpointsApiExplorer();
+    services.AddSwaggerGen(configure =>
+    {
+        configure.SwaggerDoc(swaggerVersion, new OpenApiInfo
+        {
+            Title = swaggerTitle,
+            Version = swaggerVersion
+        });
+    });
+    services.AddDbContext<VRContext>(options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+    services.AddMediatR(typeof(BookingViewModel));
 }
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(opts => opts.SwaggerEndpoint(swaggerUrl, swaggerName));
+}
+
+app.UseHttpsRedirection();
+
+app.UseCors(MyAllowSpecificOrigins);
+
+app.MapControllers();
+
+app.Run();

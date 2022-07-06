@@ -1,4 +1,4 @@
-﻿namespace VacationRental.Api.Models
+﻿namespace VacationRental.BusinessLogic.Models.Rentals
 {
     public class RentalBindingModel
     {
