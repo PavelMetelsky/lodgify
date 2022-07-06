@@ -24,7 +24,7 @@ namespace VacationRental.Api.Tests
                 .UseInMemoryDatabase(databaseName: "Test")
                 .Options;
 
-            _vrContext = new VRContext(options);
+            _vrContext = new FakeVRContext(options);
         }
 
         public async Task<RentalViewModel> GetRental(int rentalId)

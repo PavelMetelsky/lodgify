@@ -125,9 +125,38 @@ namespace VacationRental.Api.Tests.Bookings
             var bookingModel = await _fixture.CreateBooking(rentalModel.Id, startDate, nights);
 
             // Assert
+            //We need disable eager loading because we use Filtered includes
+            (_fixture._vrContext as FakeVRContext).UnloadDataFromMemory();
             await Assert.ThrowsAsync<ApplicationException>(() =>
                  _fixture.CreateBooking(rentalModel.Id, startDate.AddDays(1), nights));
         }
-        
+
+        [Fact]
+        public async Task CreateBooking_Successfully()
+        {
+            // Arrange
+            var units = 1;
+            var preparationTimeInDays = 3;
+            var rentalModel = await _fixture.CreateRental(units, preparationTimeInDays);
+            var startDate = new DateTime(2002, 01, 01);
+            var nights = 3;
+
+            // Act
+            var bookingModel = await _fixture.CreateBooking(rentalModel.Id, startDate, nights);
+            //We need disable eager loading because we use Filtered includes
+            (_fixture._vrContext as FakeVRContext).UnloadDataFromMemory();
+            var bookingModel2 = await _fixture.CreateBooking(rentalModel.Id, startDate.AddDays(100), nights);
+
+            // Assert
+            var bookingEntity = await _fixture._vrContext.Bookings
+                            .Include(b => b.Unit)
+                            .FirstOrDefaultAsync(b => b.Id == bookingModel2.Id);
+
+            Assert.NotNull(bookingEntity);
+            Assert.True(bookingEntity.Id == bookingModel2.Id);
+            Assert.True(bookingEntity.Unit.RentalId == rentalModel.Id);
+            Assert.True(bookingEntity.Start == startDate.AddDays(100));
+            Assert.True(bookingEntity.End == startDate.AddDays(100 + nights));
+        }
     }
 }
