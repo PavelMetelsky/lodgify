@@ -1,12 +1,8 @@
-using System.Threading;
 using System.Threading.Tasks;
-using VacationRental.BusinessLogic.Models.Rentals;
-using VacationRental.BusinessLogic.Queries.Rentals.GetRental;
 using Xunit;
 
 namespace VacationRental.Api.Tests.Rentals
 {
-    // In the same way, you can test each API request(Query or Command) separately in a separate file
     public class GetRentalTests : IClassFixture<InMemorySeedDataFixture>
     {
         private readonly InMemorySeedDataFixture _fixture;
@@ -20,22 +16,17 @@ namespace VacationRental.Api.Tests.Rentals
         public async Task GetRentals_ReturnRental()
         {
             // Arrange
-            _fixture.AddRental(2, 10);
+            var units = 10;
+            var preparationTimeInDays = 3;
+            var rentalModel = await _fixture.CreateRental(units, preparationTimeInDays);
 
             // Act
-            var result = await GetRental();
+            var result = await _fixture.GetRental(rentalModel.Id);
 
             // Assert
-            Assert.True(result.Units == 2);
-            Assert.True(result.PreparationTimeInDays == 10);
-        }
-
-        private async Task<RentalViewModel> GetRental()
-        {
-            var request = new GetRentalsQuery { RentalId = 1};
-            var handler = new GetRentalsHandler(_fixture._vrContext);
-
-            return await handler.Handle(request, CancellationToken.None);
+            Assert.True(result.Id == rentalModel.Id);
+            Assert.True(result.Units == units);
+            Assert.True(result.PreparationTimeInDays == preparationTimeInDays);
         }
     }
 }
